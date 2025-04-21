@@ -19,8 +19,8 @@
 게시물 삭제 시 게시물 비밀번호 확인
  -->
 <ul>
-	<li><a href="member/list">관리자-회원목록</a></li>
-
+	<li><a href="member/list">관리자-회원목록11</a></li>
+	
 	<c:if test="${empty member}">
 		<li><a href="registerForm">회원가입</a></li>
 		<li><a href="loginForm">로그인</a></li>
