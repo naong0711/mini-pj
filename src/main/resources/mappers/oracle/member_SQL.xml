@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.kosa.mini.MemberDAO">
+
+	<select id="getMember" resultType="org.kosa.mini.Member">
+		select * from tb_member where
+		userid = #{userid}
+	</select>
+
+	<select id="memberList" resultType="org.kosa.mini.Member">
+		SELECT * FROM (
+		SELECT rownum
+		rnum,
+		e.*
+		FROM (SELECT * FROM tb_member ep
+		WHERE ep.name LIKE
+		CONCAT(CONCAT('%', #{searchValue, jdbcType=VARCHAR}), '%')
+		ORDER BY
+		name ) e
+		WHERE rownum
+		BETWEEN 1 AND #{end} ) o
+		WHERE o.rnum BETWEEN
+		#{start} AND #{end}
+	</select>
+
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM
+		tb_member
+		WHERE name like '%' || #{searchValue, jdbcType=VARCHAR} ||
+		'%'
+	</select>
+
+	<insert id="register">
+		INSERT INTO tb_member (
+		userid, pw, name, nickname,
+		phone, add_No, address1, address2, email, reg_at,
+		is_del, del_at,
+		is_lock, fail_cnt
+		)
+		VALUES (
+		#{userid}, #{pw}, #{name}, #{nickname},
+		#{phone},
+		#{add_No}, #{address1}, #{address2}, #{email},
+		sysdate, 'F',
+		NULL, 'F', 0
+		)
+	</insert>
+
+	<update id="setFailLogCnt" parameterType="String">
+		update tb_member set
+		fail_cnt = NVL(fail_cnt, 0) + 1
+		where userid = #{userid}
+	</update>
+
+	<update id="resetFailCnt" parameterType="String">
+		UPDATE tb_member
+		SET fail_cnt = 0
+		WHERE userid = #{userid}
+	</update>
+
+
+
+
+
+
+</mapper>
