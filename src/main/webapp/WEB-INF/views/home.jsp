@@ -19,6 +19,7 @@
 게시물 삭제 시 게시물 비밀번호 확인
  -->
 <ul>
+ebebeb
 	<li><a href="member/list">관리자-회원목록11</a></li>
 	
 	<c:if test="${empty member}">
