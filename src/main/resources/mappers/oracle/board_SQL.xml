@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.kosa.mini.BoardDAO">
+
+	<select id="boardList" resultType="org.kosa.mini.Board">
+		SELECT * FROM (
+		SELECT rownum
+		rnum,
+		e.*
+		FROM (SELECT * FROM tb_board ep
+		WHERE ep.title LIKE
+		CONCAT(CONCAT('%', #{searchValue, jdbcType=VARCHAR}), '%')
+		AND c_no =
+		#{c_no}
+		ORDER BY
+		post_no ) e
+		WHERE rownum
+		BETWEEN 1 AND #{end} ) o
+		WHERE
+		o.rnum BETWEEN
+		#{start} AND #{end}
+
+	</select>
+
+	<select id="categoryBoard" resultType="org.kosa.mini.Board">
+		select * from tb_board
+		where c_no = #{c_no}
+	</select>
+
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM
+		tb_board
+		WHERE title like '%' || #{searchValue, jdbcType=VARCHAR} ||
+		'%'
+		and c_no = #{c_no}
+	</select>
+
+	<insert id="write">
+		INSERT INTO tb_board (
+		post_no, c_no, userid, title,
+		post_pw, content, post_at, view_cnt,
+		is_pDel, pDel_at
+		)
+		VALUES (
+		seq_post_no.NEXTVAL, #{c_no}, #{userid}, #{title},
+		#{post_pw},
+		#{content},
+		SYSDATE, 0, 'F', NULL
+		)
+	</insert>
+
+	<select id="getBoard" resultType="org.kosa.mini.Board">
+		select * from tb_board
+		where
+		post_no = #{post_no}
+	</select>
+
+	<select id="getPassword" resultType="String">
+		SELECT post_pw FROM tb_board WHERE post_no = #{post_no}
+	</select>
+	
+		<delete id="delete">
+		DELETE FROM tb_board
+		WHERE post_no = #{post_no}	
+	</delete>
+
+
+</mapper>

@@ -2,8 +2,6 @@ package org.kosa.mini.page;
 
 import java.util.List;
 
-import org.kosa.mini.Member;
-
 import lombok.Data;
 
 @Data

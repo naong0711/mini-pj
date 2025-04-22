@@ -61,9 +61,30 @@
 		WHERE userid = #{userid}
 	</update>
 
+	<update id="update">
+		update tb_member set 
+			name=#{name},
+			nickname=#{nickname},
+			add_No=#{add_No},
+			address1=#{address1},
+			address2=#{address2},
+			email=#{email},
+			phone=#{phone}
+		where userid= #{userid}	
+	</update>
 
+	<delete id="delete">
+		DELETE FROM tb_member
+		WHERE userid = #{userid}	
+	</delete>
 
-
+	<update id="unlock" parameterType="String">
+		UPDATE tb_member
+		SET
+		fail_cnt = 0,
+		is_lock = 'F'
+		WHERE userid = #{userid}
+	</update>
 
 
 </mapper>

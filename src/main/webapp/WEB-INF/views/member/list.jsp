@@ -32,6 +32,7 @@
 
 <table border=1>
 		<tr>
+			<th>번호</th>
 			<th>이름</th>
 			<th>아이디</th>
 			<th>닉네임</th>
@@ -40,9 +41,10 @@
 			<th>잠금여부</th>
 		</tr>
 
-		<c:forEach var="member" items="${pageResponse.list}">
+		<c:forEach var="member" items="${pageResponse.list}" varStatus="status">
 			<tr>
-				<td>${member.name}</td>
+				<td>${status.count}</td>
+				<td><a href="${pageContext.request.contextPath}/memberDetail?userid=${member.userid}">${member.name}</a></td>
 				<td>${member.userid}</td>
 				<td>${member.nickname }</td>
 				<td>${fn:substring(member.reg_at,0,10)}</td>

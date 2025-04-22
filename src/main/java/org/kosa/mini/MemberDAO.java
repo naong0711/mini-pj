@@ -14,5 +14,9 @@ public interface MemberDAO {
 	public boolean register(Member member); //회원가입
 	public void setFailLogCnt(String userid); //로그인 실패횟수
 	public void resetFailCnt(String userid); //로그인 실패횟수 리셋
+	public int update(Member member); //멤버 정보수정
+	public int delete(String userid); //멤버삭제
+	public int unlock(String userid); //잠금해제
+
 
 }
