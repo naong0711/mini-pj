@@ -5,35 +5,137 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main_style.css">
 <title>Insert title here</title>
+<style>
+/* 폼 정렬 */
+form {
+	max-width: 500px;
+	margin: 40px auto;
+	background: #fff;
+	padding: 30px 40px;
+	border-radius: 12px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	font-size: 14px;
+}
+
+/* 한 줄 정렬 */
+.form-row {
+	display: flex;
+	align-items: center;
+	margin-bottom: 16px;
+}
+
+.form-row label {
+	width: 90px;
+	font-weight: bold;
+}
+
+.form-row input[type="text"], .form-row input[type="password"],
+	.form-row input[type="tel"], .form-row input[type="number"], .form-row select
+	{
+	flex: 1;
+	padding: 8px 10px;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+}
+
+/* 아이디 + 버튼 */
+#validButton {
+	margin-left: 8px;
+	padding: 8px 12px;
+}
+
+/* 이메일 */
+.email-group {
+	display: flex;
+	gap: 8px;
+	flex: 1;
+}
+
+#emailCustomDomain {
+	display: none;
+	flex: 1;
+}
+
+/* 버튼 정렬 */
+.button-row {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+}
+
+.button-row input {
+	padding: 8px 16px;
+	font-weight: bold;
+	border: none;
+	border-radius: 6px;
+	background-color: #007bff;
+	color: #fff;
+	cursor: pointer;
+}
+
+.button-row input:hover {
+	background-color: #0056b3;
+}
+
+.email-row input[type="text"],
+.email-row select {
+  font-size: 14px;
+  height: 40px; /* 동일한 높이 */
+  padding: 0 10px; /* 동일한 패딩 */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  line-height: 40px; /* select 높이 맞춤용 */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+}
+</style>
 </head>
 <body>
-<a href="${pageContext.request.contextPath}/">&lt;</a><br>
-	<h1>회원가입</h1>
+	
+	<h1><a href="${pageContext.request.contextPath}/">&lt;</a> 회원가입</h1>
 	<form name="registerForm" id="registerForm" action="register"
 		method="post">
-		아이디 <input type="text" name="userid" id="userid" required="required">
-		<input type="button" value="중복확인" id="validButton"> *8자 이상 입력해주세요 <br />
-		비밀번호 <input type="password" name="pw" id="pw" required="required"> *영문자+숫자+특수문자 1개이상 포함 최소8자<br />
-		비밀번호확인 <input type="password" name="pw2" id="pw2" required="required"><br />
-		이름 <input type="text" name="name" id="name" required="required"><br />
-		닉네임 <input type="text" name="nickname" id="nickname" required="required"><br />
-		전화번호 <input type="tel"name="phone" id="phone" required="required" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"><br />
-		우편번호 <input type="number" name="add_No" id="add_No" required="required"><br />
-		주소 <input type="text" name="address1" id="address1" required="required"><br />
-		상세주소 <input type="text" name="address2" id="address2" required="required"><br />
-		이메일 <input type="text" name="email" id="email" required="required">
-			 <select name="emailDomain" id="emailDomain" required="required">
-			  	<option value="gmail.com">gmail.com</option>
-			  	<option value="naver.com">naver.com</option>
-			  	<option value="daum.net">daum.net</option>
-		        <option value="">--직접입력--</option>
-			</select>
-			<input type="text" id="emailCustomDomain" style="display:none;" placeholder="도메인 입력">
+		<label>아이디</label> <span style="color: gray;">*8자 이상 입력해주세요</span> <input
+			type="text" name="userid" id="userid" required="required"> <input
+			type="button" value="중복확인" id="validButton"><br /> <label>비밀번호</label>
+		<span style="color: gray;">*영문자+숫자+특수문자 1개이상 포함 최소8자</span> <input
+			type="password" name="pw" id="pw" required="required"><br />
+		<label>비밀번호확인</label><br /> <input type="password" name="pw2"
+			id="pw2" required="required"><br /> <label>이름</label><br />
+		<input type="text" name="name" id="name" required="required"><br />
+		<label>닉네임</label><br /> <input type="text" name="nickname"
+			id="nickname" required="required"><br /> <label>전화번호</label><br />
+		<input type="tel" name="phone" id="phone" required="required"
+			pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"><br />
+<label>주소</label>
+<div>
+    <input type="text" name="add_No" id="add_No" required placeholder="우편번호" style="width: 120px; display: block; margin-bottom: 8px;">
+    <input type="text" name="address1" id="address1" required placeholder="주소" style="display: block; margin-bottom: 8px;">
+    <input type="text" name="address2" id="address2" required placeholder="상세주소" style="display: block;">
+</div>
+    
+<label for="email">이메일</label>
+<div class="form-row email-row">
+  <input type="text" id="email" name="email" required placeholder="yourname">
+  <span style="line-height: 40px;">@</span>
+  <select id="emailDomain" name="emailDomain" required>
+    <option value="gmail.com">gmail.com</option>
+    <option value="naver.com">naver.com</option>
+    <option value="daum.net">daum.net</option>
+    <option value="">직접입력</option>
+  </select>
 
-		<br/>
+  <input type="text" id="emailCustomDomain" placeholder="도메인 입력" style="display: none;">
+</div>
 
-		<input type="submit" value="회원가입"> <input type="reset" value="초기화"> <br/>
+		<br /> <input type="submit" value="회원가입">
+		<input type="reset" value="초기화" style="background-color: #6c757d;"> <br />
 	</form>
 
 

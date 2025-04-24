@@ -78,6 +78,14 @@
 		WHERE post_no = #{post_no}
 	</update>
 
+	<update id="updateBoard">
+		update tb_board
+		set c_no = #{c_no},
+		    title = #{title},
+		    post_pw = #{post_pw},
+		    content = #{content}
+		where post_no = #{post_no}
+	</update>
 
 
 </mapper>

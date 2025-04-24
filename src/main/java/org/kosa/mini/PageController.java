@@ -138,12 +138,13 @@ public class PageController {
 
 	// 상세보기(멤버)
 	@RequestMapping("/myPage")
-	public String myPage(String userid, Model model) {
+	public String myPage(Model model, String userid) {
 
 		Member member = pageService.getMember(userid);
 		if (member == null) {
 			return "redirect:/";
 		}
+
 
 		model.addAttribute("member", member);
 
@@ -240,8 +241,8 @@ public class PageController {
 	}
 
 	// 공지사항
-	@RequestMapping("notiecBoard")
-	public String notiecBoard(Model model, String searchValue, String size, String pageNo) {
+	@RequestMapping("noticeBoard")
+	public String noticeBoard(Model model, String searchValue, String size, String pageNo) {
 
 		model.addAttribute("pageResponse",
 				pageService.notiecBoard(searchValue, Util.parseInt(pageNo, 1), Util.parseInt(size, 10)));
@@ -348,6 +349,25 @@ public class PageController {
 			return "board/updateBoard";
 		}
 	
+		// 게시물수정폼(게시물)-수정버튼
+		@PostMapping("/updateBoard")
+		@ResponseBody
+		public Map<String, Object> updateBoard(@RequestBody Board board) {
+
+			Map<String, Object> map = new HashMap<String, Object>();
+
+			Board result = pageService.updateBoard(board);
+
+			if (result != null) {
+				map.put("success", true);
+				map.put("message", "수정 성공");
+			} else {
+				map.put("success", false);
+				map.put("message", "수정 도중 오류 발생");
+			}
+
+			return map;
+		}
 	
 
 }

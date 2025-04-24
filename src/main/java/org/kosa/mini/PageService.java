@@ -167,4 +167,16 @@ public class PageService {
 		
 		boardDAO.addView(post_no);
 	}
+
+	public Board updateBoard(Board board) {
+		Board boardDB = boardDAO.getBoard(board.getPost_no());
+		
+		if (boardDB == null) {
+			return null;
+		}
+		//DB 데이터 수정작업
+		boardDAO.updateBoard(board);
+		return board;
+	}
+
 }

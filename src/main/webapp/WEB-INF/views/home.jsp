@@ -1,45 +1,58 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main_style.css">
 <title>Main</title>
+<style>
+body {
+	padding: 40px 5%;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+/* 콘텐츠 박스 영역 너비 제한 */
+div {
+	max-width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* 테이블도 폭 제한 */
+table {
+	max-width: 100%;
+	table-layout: auto;
+}
+
+/* 폼 너비도 반응형 정돈 */
+form {
+	max-width: 600px;
+	width: 90%;
+}
+
+</style>
 </head>
 <body>
-	<!-- 로그인 기능
-회원가입, 상세보기 수정 탈퇴 관리자의 경우 회원 목록
-아이디 중복확인
-비밀번호 패턴 검사 기능 영문자 숫자 특수문자 1개이상 필수 최소8자
-아이디 검증 최소8자 
-로그인 5회 실패 시 계정 자동잠금
-로그인 잠금 기능해제는 관리자만 가능
-회원관리목록 검색&페이징
-게시물관리기능 < CRUD구현
-상세보기 시 조회수 카운트 (세션으로 카운트, 중복카운트x)
-게시물 삭제 시 게시물 비밀번호 확인
- -->
+
 	<ul>
-
 		<c:if test="${member.m_role == 0}">
-			<li><a href="member/list">관리자-회원목록</a></li>
+			<li><a href="member/list">회원목록</a></li>
 		</c:if>
-
 		<c:if test="${empty member}">
 			<li><a href="registerForm">회원가입</a></li>
 			<li><a href="loginForm">로그인</a></li>
-
 		</c:if>
-
 		<c:if test="${not empty member}">
 			<li><a href="myPage?userid=${member.userid}">${member.name}님</a></li>
 			<li><a href="logout">로그아웃</a></li>
 		</c:if>
-
 	</ul>
 
 	<!-- 자유게시판 최신글 -->
 	<div>
-		<h2 onclick="location.href='freeBoard';">자유게시판</h2>
+		<h2 onclick="location.href='freeBoard';">자유게시판 <span style="float: right;">+</span></h2>
 		<hr>
 		<table>
 			<tr>
@@ -48,23 +61,20 @@
 				<th>작성일</th>
 				<th>조회수</th>
 			</tr>
-
 			<c:forEach var="board" items="${freeBoard}" end="7">
 				<tr>
 					<td><a href="detailView?post_no=${board.post_no}">${board.title}</a></td>
 					<td>${board.userid}</td>
-					<td>${board.post_at}</td>
+					<td>${fn:substring(board.post_at, 0, 10)}</td>
 					<td>${board.view_cnt}</td>
 				</tr>
 			</c:forEach>
 		</table>
-
 	</div>
 
 	<!-- 공지사항 최신글 -->
-
 	<div>
-		<h2 onclick="location.href='notiecBoard';">공지사항</h2>
+		<h2 onclick="location.href='noticeBoard';">공지사항 <span style="float: right;">+</span></h2>
 		<hr>
 		<table>
 			<tr>
@@ -73,19 +83,16 @@
 				<th>작성일</th>
 				<th>조회수</th>
 			</tr>
-
 			<c:forEach var="board" items="${notiecBoard}" end="7">
 				<tr>
 					<td><a href="detailView?post_no=${board.post_no}">${board.title}</a></td>
 					<td>${board.userid}</td>
-					<td>${board.post_at}</td>
+					<td>${fn:substring(board.post_at, 0, 10)}</td>
 					<td>${board.view_cnt}</td>
 				</tr>
 			</c:forEach>
 		</table>
-
 	</div>
-
 
 </body>
 </html>

@@ -24,12 +24,8 @@ public class PageResponseVO <T> {
 		this.size = size;
 		this.searchValue = searchValue;
 
-		// 2. (���� �Ǽ� / 10)�� ���� �ø� -> ��ü��������
 		totalPage = (int) Math.ceil((double) totalCount / size);
 
-		// 301 -> endPage : 31
-		// pageNoNumber : 30 , start: 21, end:30
-		// pageNoNumber : 31 , start: 31, end:40, ���� : 31
 		startPage = ((pageNo - 1) / 10) * 10 + 1;
 		endPage = ((pageNo - 1) / 10) * 10 + 10;
 		if (endPage > totalPage)

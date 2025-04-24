@@ -4,15 +4,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main_style.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+	<h1><a href="${pageContext.request.contextPath}/">&lt;</a> 로그인</h1>
 
 <form name="loginForm" id="loginForm" action="login">
-	아이디 : <input type="text" name="userid" id="userid" required="required"><br/>
-	비밀번호 : <input type="password" name="pw" id="pw" required="required"><br/>
-	<input type="submit" value="로그인"> 	
+	<label for="userid">아이디</label>
+	<input type="text" name="userid" id="userid" required="required" />
+
+	<label for="pw">비밀번호</label>
+	<input type="password" name="pw" id="pw" required="required" />
+
+	<input type="submit" value="로그인" />
 </form>
 
 	<script type="text/javascript">

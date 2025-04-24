@@ -16,5 +16,6 @@ public interface BoardDAO {
 	public String getPassword(int post_no); //삭제 시 패스워드 확인용
 	public int delete(int post_no); //게시글 삭제
 	public int addView(int post_no); //조회수 증가
+	public int updateBoard(Board board);
 
 }
