@@ -8,26 +8,32 @@
 <title>Insert title here</title>
 </head>
 <body>
+<a href="${pageContext.request.contextPath}/">&lt;</a><br>
 	<h1>회원가입</h1>
 	<form name="registerForm" id="registerForm" action="register"
 		method="post">
 		아이디 <input type="text" name="userid" id="userid" required="required">
-		<input type="button" value="중복확인" id="validButton"> *8자 이상
-		입력해주세요 <br /> 비밀번호 <input type="password" name="pw" id="pw"
-			required="required"> *영문자+숫자+특수문자 1개이상 포함 최소8자<br /> 비밀번호확인
-		<input type="password" name="pw2" id="pw2" required="required"><br />
+		<input type="button" value="중복확인" id="validButton"> *8자 이상 입력해주세요 <br />
+		비밀번호 <input type="password" name="pw" id="pw" required="required"> *영문자+숫자+특수문자 1개이상 포함 최소8자<br />
+		비밀번호확인 <input type="password" name="pw2" id="pw2" required="required"><br />
 		이름 <input type="text" name="name" id="name" required="required"><br />
-		닉네임 <input type="text" name="nickname" id="nickname"
-			required="required"><br /> 전화번호 <input type="text"
-			name="phone" id="phone" required="required"><br /> 우편번호 <input
-			type="number" name="add_No" id="add_No" required="required"><br />
-		주소 <input type="text" name="address1" id="address1"
-			required="required"><br /> 상세주소 <input type="text"
-			name="address2" id="address2" required="required"><br /> 이메일
-		<input type="text" name="email" id="email" required="required"><br />
+		닉네임 <input type="text" name="nickname" id="nickname" required="required"><br />
+		전화번호 <input type="tel"name="phone" id="phone" required="required" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"><br />
+		우편번호 <input type="number" name="add_No" id="add_No" required="required"><br />
+		주소 <input type="text" name="address1" id="address1" required="required"><br />
+		상세주소 <input type="text" name="address2" id="address2" required="required"><br />
+		이메일 <input type="text" name="email" id="email" required="required">
+			 <select name="emailDomain" id="emailDomain" required="required">
+			  	<option value="gmail.com">gmail.com</option>
+			  	<option value="naver.com">naver.com</option>
+			  	<option value="daum.net">daum.net</option>
+		        <option value="">--직접입력--</option>
+			</select>
+			<input type="text" id="emailCustomDomain" style="display:none;" placeholder="도메인 입력">
 
-		<input type="submit" value="회원가입"> <input type="reset"
-			value="초기화"> <br />
+		<br/>
+
+		<input type="submit" value="회원가입"> <input type="reset" value="초기화"> <br/>
 	</form>
 
 
@@ -38,6 +44,20 @@
 		let validClicked = false;  //아이디 중복확인검사여부
 	//비밀번호 정규식
 		 const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?]).{8,}$/;
+	//이메일 정규식
+		 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+		 
+	//이메일 직접입력시 직접입력칸 보이기
+	const emailDomainSelect = document.querySelector("#emailDomain");
+	const customDomainInput = document.querySelector("#emailCustomDomain");
+	
+	emailDomainSelect.addEventListener("change", () => {
+		  if (emailDomainSelect.value === "") {
+		    customDomainInput.style.display = "inline-block";
+		  } else {
+		    customDomainInput.style.display = "none";
+		  }
+		});
 	
 		//아이디 중복검사
 	 	let validButton = document.querySelector("#validButton");
@@ -52,7 +72,8 @@
 	 				return ;
 	 			} else if (userid.value.length < 8) {
 	 				alert("아이디는 8자 이상이어야 합니다.");
-	 				userid.focus();	 				
+	 				userid.focus();	
+	 				return ;
 	 			}  
 
 				fetch("isExistUserId", { 
@@ -115,6 +136,19 @@
 					return;
 				} 
 				
+				//이메일 형식
+				const emailId = document.querySelector("#email").value; //사용자입력필드
+				const domain = emailDomainSelect.value || customDomainInput.value; //이메일 가져오기
+				const fullEmail = emailId + "@" + domain; //전체이메일
+				console.log(fullEmail);
+
+				//이메일 형식 확인
+				if(!emailRegex.test(fullEmail)) {
+					alert("이메일 형식이 잘못되었습니다.");
+					customDomainInput.focus();
+					return;
+				}
+				
 				//form의 하위 객체를 이름을 사용하여 접근 하는 방법
 				const param = {
 					userid : registerForm.userid.value,   	
@@ -125,10 +159,10 @@
 					add_No : document.querySelector("#add_No").value,   	
 					address1 : document.querySelector("#address1").value,   	
 					address2 : document.querySelector("#address2").value,   	
-					email : document.querySelector("#email").value	
+					email : fullEmail
 				}
 				console.log("param", param);
-				
+
 				fetch("register", { 
 					  method: 'post', 
 					  headers: {
@@ -144,7 +178,8 @@
 							  alert("회원가입이 완료되었습니다.");
 							  location = "loginForm";
 						  }
-				})	 			
+				})
+
 	 		})
 	 	}
 	

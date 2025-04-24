@@ -25,6 +25,7 @@ public class Member {
 	private String del_at;
 	private String is_lock;
 	private int fail_cnt;
+	private String m_role;
 	
 
 }

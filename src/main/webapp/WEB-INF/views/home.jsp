@@ -20,7 +20,9 @@
  -->
 	<ul>
 
-		<li><a href="member/list">관리자-회원목록</a></li>
+		<c:if test="${member.m_role == 0}">
+			<li><a href="member/list">관리자-회원목록</a></li>
+		</c:if>
 
 		<c:if test="${empty member}">
 			<li><a href="registerForm">회원가입</a></li>
@@ -29,11 +31,12 @@
 		</c:if>
 
 		<c:if test="${not empty member}">
-			<li><a href="myPage?userid=${member.userid}">${member.name}</a>회원정보상세보기>수정,탈퇴</a></li>
+			<li><a href="myPage?userid=${member.userid}">${member.name}님</a></li>
+			<li><a href="logout">로그아웃</a></li>
 		</c:if>
 
 	</ul>
-	게시물목록>상세보기
+
 	<!-- 자유게시판 최신글 -->
 	<div>
 		<h2 onclick="location.href='freeBoard';">자유게시판</h2>

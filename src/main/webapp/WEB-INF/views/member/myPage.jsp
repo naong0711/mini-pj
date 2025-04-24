@@ -9,6 +9,8 @@
 </head>
 <body>
 
+<a href="${pageContext.request.contextPath}/">&lt;</a><br>
+
 아이디 : <input type="text" value="${member.userid}" readonly="readonly" id="userid"> <br>
 비밀번호 : ${member.pw} <br/>
 이름  : ${member.name} <br/>

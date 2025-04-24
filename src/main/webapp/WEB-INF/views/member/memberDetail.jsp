@@ -19,7 +19,7 @@
 우편번호  : <input type="text" value="${member.add_No}" readonly="readonly" id="add_No"> <br/>
 주소  : <input type="text" value="${member.address1}" readonly="readonly" id="address1"> <br/>
 상세주소  : <input type="text" value="${member.address2}" readonly="readonly" id="address2"> <br/>
-이메일  :<input type="text" value="${member.email}" readonly="readonly" id="email"> <br/>
+이메일  :<input type="email" value="${member.email}" readonly="readonly" id="email"> <br/>
 전화번호  : <input type="text" value="${member.phone}" readonly="readonly" id="phone">
 가입날짜 : <input type="text" value="${fn:substring(member.reg_at, 0, 10)}" readonly="readonly" id="reg_at">  <br/>
 탈퇴여부 : <input type="text" value="${member.is_del}" readonly="readonly" id="is_del">

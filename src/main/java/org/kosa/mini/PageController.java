@@ -1,7 +1,9 @@
 package org.kosa.mini;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -123,6 +125,15 @@ public class PageController {
 		}
 
 		return map;
+	}
+	
+	//로그아웃
+	@RequestMapping("logout")
+	public String logout(HttpSession session) {
+		
+		session.invalidate();
+		
+		return "redirect:/";
 	}
 
 	// 상세보기(멤버)
@@ -267,12 +278,32 @@ public class PageController {
 
 	// 상세보기(게시물)
 	@RequestMapping("/detailView")
-	public String detailView(int post_no, Model model) {
+	public String detailView(int post_no, Model model, HttpSession session) {
 
 		Board board = pageService.getBoard(post_no);
 		if (board == null) {
 			return "redirect:/";
 		}
+		
+		 // 세션에서 조회한 게시글 목록 가져오기
+	    Set<Integer> viewedPosts = (Set<Integer>) session.getAttribute("viewedPosts");
+	    
+	    // 세션에 viewedPosts가 없으면 새로 생성
+	    if (viewedPosts == null) {
+	        viewedPosts = new HashSet<Integer>();
+	    }
+
+	    Object obj = session.getAttribute("viewedPosts");
+	    if (obj instanceof Set<?>) {
+	        viewedPosts = (Set<Integer>) obj;
+	    }
+
+	    // 해당 글을 처음 보는 경우만 조회수 증가
+	    if (!viewedPosts.contains(post_no)) {
+	        pageService.addView(post_no);
+	        viewedPosts.add(post_no);
+	        session.setAttribute("viewedPosts", viewedPosts);
+	    }
 
 		model.addAttribute("board", board);
 
@@ -292,7 +323,7 @@ public class PageController {
 	}
 	
 	// 상세보기(게시물)-게시물 삭제버튼
-		@DeleteMapping("/deletePost")
+		@RequestMapping("/deletePost")
 		@ResponseBody
 		public Map<String, Object> deletePost(@RequestBody int post_no) {
 

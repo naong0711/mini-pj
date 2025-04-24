@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<a href="${pageContext.request.contextPath}/">&lt;</a><br>
 건수 : <select name="size" id="size">
 	<c:forTokens items="10,30,90,100" delims="," var="size">
 		<option value="${size}" ${pageResponse.size == size ? 'selected' : ''}>${size}</option>
@@ -35,7 +35,7 @@
 
 			<c:forEach var="board" items="${pageResponse.list}">
 				<tr>
-					<td>${board.title}</td>
+					<td><a href="detailView?post_no=${board.post_no}">${board.title}</td>
 					<td>${board.userid}</td>
 					<td>${board.post_at}</td>
 					<td>${board.view_cnt}</td>

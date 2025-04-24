@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<a href="${pageContext.request.contextPath}/">&lt;</a><br>
 
 	<input type="text" value="${member.userid}" id="userid">
 	<input type="text" value="${board.post_no }" id="post_no">
@@ -38,7 +39,12 @@
 	function updatePost() {
 
 		    const inputPw = prompt("비밀번호를 입력하세요:");
-		    if (inputPw === null) return;
+		    
+			  if (post_pw === null || post_pw === "") {
+				  deletePetch();
+			  } else {
+			    const inputPw = prompt("비밀번호를 입력하세요:");
+			    if (inputPw === null) return;
 		
 		    fetch('checkPassword', {
 		      method: 'POST',
@@ -59,7 +65,6 @@
 		      }
 		    });
 		  }
-	}
 
 	//삭제버튼
 	function delPost() {
@@ -97,7 +102,7 @@
 	function deletePetch() {
 		
 		  fetch('deletePost', {
-			    method: 'DELETE',
+			    method: 'post',
 			    headers: {
 			      'Content-Type': 'application/json'
 			    },

@@ -162,4 +162,9 @@ public class PageService {
 
 		
 	}
+
+	public void addView(int post_no) {
+		
+		boardDAO.addView(post_no);
+	}
 }

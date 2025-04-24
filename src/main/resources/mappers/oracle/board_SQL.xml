@@ -14,7 +14,8 @@
 		WHERE ep.title LIKE
 		CONCAT(CONCAT('%', #{searchValue, jdbcType=VARCHAR}), '%')
 		AND c_no =
-		#{c_no}
+		#{c_no} 
+		and is_pDel = 'F'
 		ORDER BY
 		post_no ) e
 		WHERE rownum
@@ -28,6 +29,7 @@
 	<select id="categoryBoard" resultType="org.kosa.mini.Board">
 		select * from tb_board
 		where c_no = #{c_no}
+		and is_pDel = 'F'
 	</select>
 
 	<select id="getTotalCount" resultType="int">
@@ -59,13 +61,23 @@
 	</select>
 
 	<select id="getPassword" resultType="String">
-		SELECT post_pw FROM tb_board WHERE post_no = #{post_no}
+		SELECT post_pw FROM tb_board
+		WHERE post_no = #{post_no}
 	</select>
-	
-		<delete id="delete">
-		DELETE FROM tb_board
-		WHERE post_no = #{post_no}	
-	</delete>
+
+	<update id="delete">
+		update tb_board set
+		is_pDel = 'T',
+		pDel_at = sysdate
+		WHERE post_no = #{post_no}
+	</update>
+
+	<update id="addView">
+		update tb_board set
+		view_cnt = NVL(view_cnt, 0) + 1
+		WHERE post_no = #{post_no}
+	</update>
+
 
 
 </mapper>

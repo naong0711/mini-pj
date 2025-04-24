@@ -18,8 +18,8 @@
 우편번호 : <input type="text" value="${member.add_No}" id="add_No"> <br>
 주소 : <input type="text" value="${member.address1}" id="address1"> <br>
 상세주소 : <input type="text" value="${member.address2}" id="address2"> <br>
-이메일 : <input type="text" value="${member.email}" id="email"> <br>
-전화번호 : <input type="text" value="${member.phone}" id="phone"> <br>
+이메일 : <input type="email" value="${member.email}" id="email"> <br>
+전화번호 : <input type="tel" value="${member.phone}" id="phone" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"> <br>
 <br>
 비밀번호 확인 : <input type="password"id="pw2" required="required"> <br> 
 
